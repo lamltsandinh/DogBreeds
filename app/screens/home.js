@@ -8,13 +8,14 @@ import {
     Image,
     ScrollView,
     Animated,
-    Easing
+    Easing,
+    Button
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getColor } from '../utils';
 import { appStyle, color } from '../theme'
 import constant from '../constant';
-
+import Animation from '../components/animation'
 // source at https://dog.ceo/dog-api/
 const URL_GET_BREEDDOG = 'https://dog.ceo/api/breeds/list'
 
@@ -23,25 +24,16 @@ export default class Home extends React.Component {
         super(props)
         this.state = {
             arrBreedDogs: [],
+            loading: false,
+            error: true,
             textSearch: '',
         }
-        this.spinValue = new Animated.Value(0)
     }
 
     renderHeader = () => {
-        const spin = this.spinValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '360deg']
-        })
         return (
             <View style={styles.header}>
-                <Animated.View
-                    style={[styles.headerLogo, { transform: [{ rotate: spin }] }]}>
-                    <Ionicons
-                        name='md-paw'
-                        size={constant.icon.BIG}
-                        style={styles.appPadding} />
-                </Animated.View>
+                <Animation />
                 <Text style={styles.headerTitle}>List all breed names</Text>
             </View>
         )
@@ -81,11 +73,20 @@ export default class Home extends React.Component {
     }
 
     renderContext = () => {
-        const { arrBreedDogs, textSearch } = this.state;
-
+        const { arrBreedDogs, textSearch, loading, error } = this.state;
         //finter after search value
         let dataSource = arrBreedDogs.filter(item => item.indexOf(textSearch) != -1);
-
+        if (loading) {
+            return <View style={styles.appCenter}>
+                <Animation />
+            </View>
+        }
+        if (error) {
+            return <View style={styles.appCenter}>
+                <Text style={styles.appText}>Lỗi Kết nối thử lại</Text>
+                <Button title='reload' onPress={() => this.handerGetArrBreedDogs()} />
+            </View>
+        }
         return (
             <ScrollView>
                 <View style={styles.arrNameBreedDogs}>
@@ -116,28 +117,20 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        this.aniLogo();
         this.handerGetArrBreedDogs();
     }
 
     handerGetArrBreedDogs = () => {
+        this.setState({ loading: true, error: false })
         fetch(URL_GET_BREEDDOG)
             .then(response => response.json())
             .then(response => {
-                this.setState({ arrBreedDogs: response.message });
+                this.setState({ loading: false, arrBreedDogs: response.message });
+            })
+            .catch(error => {
+                console.log('handerGetArrBreedDogs', error)
+                this.setState({ loading: false, error: true })
             });
-    }
-
-    aniLogo() {
-        this.spinValue.setValue(0)
-        Animated.timing(
-            this.spinValue,
-            {
-                toValue: 1,
-                duration: 2000,
-                easing: Easing.linear
-            }
-        ).start(() => this.aniLogo())
     }
 }
 

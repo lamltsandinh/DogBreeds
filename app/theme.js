@@ -20,6 +20,11 @@ const appStyle = {
     appScreen: {
         flex: 1
     },
+    appCenter: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     appHor: {
         flexDirection: 'row'
     },

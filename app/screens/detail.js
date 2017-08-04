@@ -6,22 +6,26 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
-  Image,
   Dimensions, ScrollView,
   Animated,
-  Easing
+  Button,
+  Easing,
+  ActivityIndicator
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { Ionicons } from '@expo/vector-icons';
 import { getColor, getRandomColor } from '../utils';
 import { appStyle, color } from '../theme'
 import constant from '../constant';
-
+import Animation from '../components/animation'
+import Image from 'react-native-image-progress';
 export default class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       arrImgDogs: [],
+      loading: false,
+      error: false
     };
   }
 
@@ -35,12 +39,26 @@ export default class Detail extends Component {
   }
 
   renderContext = () => {
-    const { arrImgDogs } = this.state;
+    const { arrImgDogs, loading, error } = this.state;
+
+    if (loading) {
+      return <View style={styles.appCenter}>
+        <Animation />
+      </View>
+    }
+    if (error) {
+      return <View style={styles.appCenter}>
+        <Text style={styles.appText}>Lỗi Kết nối thử lại</Text>
+        <Button title='reload' onPress={() => this.handerGetArrBreedDogs()} />
+      </View>
+    }
 
     const arrItem = arrImgDogs.map((item, index) => {
       return (
         <View key={item} style={[styles.appShadow, { backgroundColor: getRandomColor() }]}>
-          <Image source={{ uri: item }} style={styles.itemImage} />
+          <Image
+            source={{ uri: item }}
+            style={styles.itemImage} />
         </View>
       );
     })
@@ -94,12 +112,17 @@ export default class Detail extends Component {
   }
 
   handleGETarrImg = () => {
+    this.setState({ loading: true, error: false })
     let URL = `https://dog.ceo/api/breed/${this.props.navigation.state.params.name}/images`
     fetch(URL)
       .then(response => response.json())
       .then(response => {
-        this.setState({ arrImgDogs: response.message })
-      }).catch(error => console.log(error));
+        this.setState({ loading: false, arrImgDogs: response.message })
+      })
+      .catch(error => {
+        console.log('handleGETarrImg', error)
+        this.setState({ loading: false, error: true })
+      });
   }
 }
 const styles = StyleSheet.create({

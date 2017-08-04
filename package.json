@@ -7,8 +7,8 @@
     "eslint": "^3.19.0",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-react": "^7.1.0",
-    "react-native-scripts": "1.1.0",
     "jest-expo": "~19.0.0",
+    "react-native-scripts": "1.1.0",
     "react-test-renderer": "16.0.0-alpha.12"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
@@ -26,6 +26,7 @@
     "expo": "^19.0.0",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.46.1",
+    "react-native-image-progress": "^1.0.1",
     "react-native-snap-carousel": "^2.4.0",
     "react-navigation": "^1.0.0-beta.11"
   }
