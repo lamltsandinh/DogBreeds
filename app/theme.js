@@ -1,9 +1,9 @@
 import constant from './constant'
 
 const color = {
-    primary: '',
-    secondary: '',
-    bg_app: '#E9EBEE',
+    primary: '#edbbd0',
+    secondary: '#B3D9CE',
+    bg_app: '#F7F7F7',
     access: 'white',
     text: '#2b2b2b',
     green: '#00551e',
@@ -41,7 +41,7 @@ const appStyle = {
     },
     appShadow: {
         margin: 3,
-        borderRadius: 6,
+        borderRadius: 4,
         shadowRadius: 1,
         shadowOpacity: 0.6,
         shadowOffset: { width: 2, height: 2 },

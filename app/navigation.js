@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import home from './screens/home'
 import detail from './screens/detail'
+import splash from './screens/splash'
 import { StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 import { appStyle, color } from './theme'
@@ -16,11 +17,15 @@ export default StackNavigator({
     detail: {
         screen: detail,
     },
-
+    splash: {
+        screen: splash
+    }
 }, {
+        initialRouteName: 'splash',
         headerMode: 'none',
         cardStyle: {
             paddingTop: Constants.statusBarHeight,
             backgroundColor: color.bg_app,
         }
-    });
+    }
+);

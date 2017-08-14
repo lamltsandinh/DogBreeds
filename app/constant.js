@@ -16,7 +16,7 @@ export default {
     },
     font: {
         NOMAL: 16,
-        LOGO: 30,
-        BIG: 22,
+        LOGO: 26,
+        BIG: 20,
     }
 }

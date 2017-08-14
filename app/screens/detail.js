@@ -57,6 +57,7 @@ export default class Detail extends Component {
       return (
         <View key={item} style={[styles.appShadow, { backgroundColor: getRandomColor() }]}>
           <Image
+            resizeMode='contain'
             source={{ uri: item }}
             style={styles.itemImage} />
         </View>
@@ -82,15 +83,15 @@ export default class Detail extends Component {
   renderFonter = () => {
     return (
       <View style={styles.fonter}>
-        <TouchableOpacity style={styles.fab} onPress={() => this.carousel.snapToPrev({ animated: true })}>
+        <TouchableOpacity style={[styles.fab, { backgroundColor: getRandomColor() }]} onPress={() => this.carousel && this.carousel.snapToPrev({ animated: true })}>
           <Ionicons name='ios-arrow-round-back' size={constant.icon.NOMAL} color={color.access} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.fab} onPress={() => this.props.navigation.goBack()}>
+        <TouchableOpacity style={[styles.fab, { backgroundColor: getRandomColor() }]} onPress={() => this.props.navigation.goBack()}>
           <Ionicons name='ios-paw-outline' size={constant.icon.NOMAL} color={color.access} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.fab} onPress={() => this.carousel.snapToNext({ animated: true })}>
+        <TouchableOpacity style={[styles.fab, { backgroundColor: getRandomColor() }]} onPress={() => this.carousel && this.carousel.snapToNext({ animated: true })}>
           <Ionicons name='ios-arrow-round-forward' size={constant.icon.NOMAL} color={color.access} />
         </TouchableOpacity>
       </View>
@@ -141,13 +142,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   fab: {
-    ...appStyle.appShadow,
     alignItems: 'center',
     justifyContent: 'center',
     height: 56,
     width: 56,
-    borderRadius: 28,
-    backgroundColor: getRandomColor(),
+    borderRadius: 28
   },
   fonter: {
     flexDirection: 'row',
